@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cloud Attendance App</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{font-family:Arial;background:#f0f7ff;padding:15px;margin:0}
+.app{max-width:450px;background:#fff;margin:20px auto;padding:25px;border-radius:16px;box-shadow:0 8px 25px #ccc}
+h2{text-align:center;color:#2563eb;margin:0} .by{text-align:center;font-size:12px;color:#666;margin-bottom:20px}
+input,select{width:100%;padding:14px;margin:8px 0;border:1.5px solid #ddd;border-radius:10px;box-sizing:border-box;font-size:15px}
+button{width:100%;padding:14px;background:#2563eb;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:bold;margin-top:10px}
+#msg{text-align:center;font-weight:bold;margin-top:15px}
+.tag{background:#e0f2fe;color:#0369a1;padding:6px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-bottom:10px}
+</style></head><body>
+<div class="app">
+<h2>📚 Cloud Attendance</h2>
+<div class="by">By Jessica (U19UC24S0004)<br>Bengaluru North University - Internship Project</div>
+<div class="tag">PaaS: GitHub Pages | Backend: Apps Script | DB: Google Sheets</div>
+<input id="name" placeholder="Student Name - Jessica">
+<input id="regno" placeholder="Register No - U19UC24S0004">
+<input id="course" placeholder="Course - BCA 6th Sem">
+<input id="classcode" placeholder="Class Code - BCA2026">
+<input id="location" placeholder="Fetching location..." readonly>
+<button onclick="mark()" id="btn">Mark Present ✅</button>
+<p id="msg"></p>
+</div>
+<script>
+const API = "https://script.google.com/macros/s/AKfycbwyeaq0vZExRttdqdPCK0FDusWtqxSRIZhb0MWn-0ObZKtskakv4F7qhb0QVhDiMBjhWg/exec";
+navigator.geolocation.getCurrentPosition(p=>{document.getElementById('location').value=p.coords.latitude.toFixed(4)+", "+p.coords.longitude.toFixed(4)},()=>{document.getElementById('location').value="Location not allowed"});
+
+function mark(){
+  const n=document.getElementById('name'), r=document.getElementById('regno'), c=document.getElementById('course'), cc=document.getElementById('classcode'), l=document.getElementById('location'), b=document.getElementById('btn'), m=document.getElementById('msg');
+  if(!n.value || !r.value || !cc.value){alert("Fill all fields");return}
+  b.innerText="Marking..."; b.disabled=true;
+  fetch(API,{method:'POST',mode:'no-cors',body:JSON.stringify({name:n.value,regno:r.value,course:c.value,classcode:cc.value,location:l.value})})
+  .then(()=>{m.style.color="green"; m.innerText="✅ Attendance Marked! Saved to Cloud Sheet"; b.innerText="Marked Present ✅"; setTimeout(()=>{b.innerText="Mark Present ✅"; b.disabled=false; m.innerText=""},3000)})
+  .catch(()=>{m.style.color="red"; m.innerText="Error! Check connection"; b.disabled=false;})
+}
+</script></body></html>
