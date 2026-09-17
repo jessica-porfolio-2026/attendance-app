@@ -1,0 +1,9 @@
+{
+  "name": "Cloud Attendance App - Jessica",
+  "short_name": "Attendance",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#2563eb",
+  "theme_color": "#2563eb",
+  "icons": [{"src": "https://cdn-icons-png.flaticon.com/512/2991/2991148.png","sizes": "512x512","type": "image/png"}]
+}
